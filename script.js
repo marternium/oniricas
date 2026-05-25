@@ -8,6 +8,8 @@ const playButtons = document.querySelectorAll(".play");
 
 let currentAudio = null;
 
+let currentIndex = 0;
+
 // HOVER BUTTONS
 hoverButtons.forEach((button) => {
   button.addEventListener("mouseenter", () => {
@@ -20,29 +22,58 @@ hoverButtons.forEach((button) => {
 });
 
 // MUSIC PLAYER
-playButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const audioSrc = button.dataset.audio;
+function playSong(index) {
+  const visibleSongs = [...songs].filter(
+    (song) => song.style.display !== "none",
+  );
 
-    const song = button.closest(".song");
+  const song = visibleSongs[index];
 
-    const progressBar = song.querySelector(".progress-bar");
+  if (!song) return;
 
-    // detener canción anterior
-    if (currentAudio) {
-      currentAudio.pause();
+  const button = song.querySelector(".play");
+
+  const audioSrc = button.dataset.audio;
+
+  const progressBar = song.querySelector(".progress-bar");
+
+  // detener canción anterior
+  if (currentAudio) {
+    currentAudio.pause();
+  }
+
+  // reset barras
+  document.querySelectorAll(".progress-bar").forEach((bar) => {
+    bar.style.width = "0%";
+  });
+
+  currentAudio = new Audio(audioSrc);
+
+  currentAudio.play();
+
+  // actualizar barra
+  currentAudio.addEventListener("timeupdate", () => {
+    const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
+
+    progressBar.style.width = progress + "%";
+  });
+
+  // autoplay siguiente
+  currentAudio.addEventListener("ended", () => {
+    currentIndex++;
+
+    if (currentIndex < visibleSongs.length) {
+      playSong(currentIndex);
     }
+  });
+}
 
-    currentAudio = new Audio(audioSrc);
+// clicks manuales
+playButtons.forEach((button, index) => {
+  button.addEventListener("click", () => {
+    currentIndex = index;
 
-    currentAudio.play();
-
-    // actualizar barra
-    currentAudio.addEventListener("timeupdate", () => {
-      const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
-
-      progressBar.style.width = progress + "%";
-    });
+    playSong(currentIndex);
   });
 });
 
@@ -73,9 +104,9 @@ const albums = document.querySelectorAll(".album");
 
 const songs = document.querySelectorAll(".song");
 
-// mostrar solo astral al inicio
+// mostrar solo pan-pocimas-mazmorras al inicio
 songs.forEach((song) => {
-  if (song.dataset.category === "astral") {
+  if (song.dataset.category === "pan-pocimas-mazmorras") {
     song.style.display = "flex";
   } else {
     song.style.display = "none";
