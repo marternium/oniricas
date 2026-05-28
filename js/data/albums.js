@@ -30,8 +30,8 @@ export const albumsData = [
     cover: "assets/img/WipesKamasMazmorras.png",
 
     songs: [
-      "Tu Canción 1",
-      "Tu Canción 2",
+      "Wey Wabbit - El Reino de las Zanahowias",
+      "Kaníbola Daldrrak - Rituales de Moon",
     ],
   },
 ];
