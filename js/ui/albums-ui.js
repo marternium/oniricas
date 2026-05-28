@@ -1,3 +1,11 @@
+import { renderSongs }
+from "../ui/songs-ui.js";
+
+const songsContainer =
+  document.getElementById(
+    "songs-container"
+  );
+
 export function renderAlbums(
   albumsContainer,
   albumsData
@@ -26,6 +34,19 @@ export function renderAlbums(
         <small>Las Oníricas</small>
       </div>
     `;
+
+    albumElement.addEventListener("click", () => {
+      const activeAlbumElement =
+        albumsContainer.querySelector(".album.active");
+
+      if (activeAlbumElement) {
+        activeAlbumElement.classList.remove("active");
+      }
+
+      albumElement.classList.add("active");
+
+      renderSongs(songsContainer, album);
+    });
 
     albumsContainer.appendChild(albumElement);
   });
