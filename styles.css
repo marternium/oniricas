@@ -197,10 +197,29 @@ section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border);
-  border-radius: 22px;
-  padding: 18px 24px;
+
+  gap: 1rem;
+
+  padding: 1rem 1.2rem;
+
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.03);
+
+  border: 1px solid rgba(255,255,255,0.05);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border 0.2s ease;
+}
+
+.song:hover {
+  transform: translateY(-2px);
+
+  background: rgba(255,255,255,0.05);
+
+  border-color: rgba(255,255,255,0.1);
 }
 
 .song-left {
@@ -615,4 +634,10 @@ footer {
   transform: scale(1.15);
 
   filter: brightness(1.2);
+}
+
+#songs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }

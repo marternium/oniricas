@@ -16,12 +16,6 @@ const hoverButtons = document.querySelectorAll("button");
 
 const navbar = document.querySelector(".navbar");
 
-const playButtons = document.querySelectorAll(".play");
-
-const albums = document.querySelectorAll(".album");
-
-const songs = document.querySelectorAll(".song");
-
 const audioCache = {};
 
 const autoplayToggle = document.getElementById("autoplay-toggle");
@@ -29,6 +23,147 @@ const autoplayToggle = document.getElementById("autoplay-toggle");
 const volumeSlider = document.getElementById("volume-slider");
 
 const muteButton = document.getElementById("mute-button");
+
+const albumsData = [
+  {
+    id: "pan-pocimas-mazmorras",
+    title: "Pan, Pócimas y Mazmorras",
+    cover: "assets/img/PanPocimasMazmorras.png",
+
+    songs: [
+      "Chadalid - El Último Capitán",
+      "Girasol Hambriento - El Rey del Sembradío",
+      "Mob Lasponja - Terror del Arenal",
+      "Jalató Real - El Rey del Corral",
+      "Escarajefe Dorado - Coraza Brillante",
+      "Batofu - Alas Negras",
+      "Boostacho - La Mansión Encantada",
+      "Chafer Ronin - Último Duelo",
+      "Blatarata - Mundo Diminuto",
+      "Director Grunob - Clase de Supervivencia",
+      "Bworka - La Más Fuerte",
+      "Cofrerrero - Konnichiwa Bajo Tierra",
+      "Shin Larva - Bajo la Montaña",
+      "Coralador Magistral - No te Acerques",
+      "Kwoknan - El Nido Elemental",
+      "Rakooper - Refugio Silvestre",
+    ],
+  },
+
+  {
+    id: "wipes-kamas-mazmorras",
+    title: "Wipes, Kamas y Mazmorras",
+    cover: "assets/img/WipesKamasMazmorras.png",
+
+    songs: [
+      "Tu Canción 1",
+      "Tu Canción 2",
+    ],
+  },
+];
+
+const albumsContainer =
+  document.getElementById("albums-container");
+
+const songsContainer =
+  document.getElementById("songs-container");
+
+function renderAlbums() {
+  albumsContainer.innerHTML = "";
+
+  albumsData.forEach((album, index) => {
+    const albumElement =
+      document.createElement("div");
+
+    albumElement.classList.add("album");
+
+    if (index === 0) {
+      albumElement.classList.add("active");
+    }
+
+    albumElement.dataset.album = album.id;
+
+    albumElement.innerHTML = `
+      <div class="album-cover">
+        <img src="${album.cover}" alt="${album.title}" />
+      </div>
+
+      <div>
+        <h4>${album.title}</h4>
+        <small>Las Oníricas</small>
+      </div>
+    `;
+
+    albumsContainer.appendChild(albumElement);
+  });
+}
+
+function renderSongs(albumId) {
+  songsContainer.innerHTML = "";
+
+  const album = albumsData.find(
+    (a) => a.id === albumId
+  );
+
+  album.songs.forEach((songName, index) => {
+    const songElement =
+      document.createElement("div");
+
+    songElement.classList.add("song");
+
+    songElement.dataset.category = album.id;
+
+    const audioPath =
+      `assets/audio/${album.id}/${songName}.mp3`;
+
+    songElement.innerHTML = `
+      <div class="song-left">
+        <div class="song-info">
+
+          <small>
+            ${String(index + 1).padStart(2, "0")}
+            • ${album.title}
+          </small>
+
+          <h3>${songName}</h3>
+
+          <div class="player-progress">
+            <span class="current-time">0:00</span>
+
+            <input
+              type="range"
+              class="progress-slider"
+              min="0"
+              max="100"
+              value="0"
+            />
+
+            <span class="duration">0:00</span>
+          </div>
+        </div>
+      </div>
+
+      <button
+        class="play"
+        data-audio="${audioPath}"
+      >
+        ▶
+      </button>
+    `;
+
+    songsContainer.appendChild(songElement);
+  });
+}
+
+renderAlbums();
+
+renderSongs(albumsData[0].id);
+
+const playButtons = document.querySelectorAll(".play");
+
+const albums = document.querySelectorAll(".album");
+
+const songs = document.querySelectorAll(".song");
 
 let previousVolume = 1;
 
