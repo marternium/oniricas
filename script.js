@@ -58,6 +58,12 @@ const albumsData = [
     songs: [
       "Wey Wabbit - El Reino de las Zanahowias",
       "Kaníbola Daldrrak - Rituales de Moon",
+      "La Corte de los Blops Reales",
+      "Gelatinas reales - Reino de Azúcar y Guerra",
+      "Nelwynn - Humo en los Pulmones",
+      "Los Toneles de Gurlo",
+      "Crujidor Legendario - Corazón de Granito",
+      "Dragenerys - Hijos del Fuego",
     ],
   },
 ];
