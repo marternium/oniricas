@@ -10,6 +10,51 @@ function formatTime(seconds) {
   return `${mins}:${secs}`;
 }
 
+function getCurrentAlbumId() {
+  const activeAlbum =
+    document.querySelector(".album.active");
+
+  return activeAlbum?.dataset.album;
+}
+
+function getNextSong() {
+  const currentAlbumId =
+    getCurrentAlbumId();
+
+  const albumIndex =
+    albumsData.findIndex(
+      album => album.id === currentAlbumId
+    );
+
+  const currentAlbum =
+    albumsData[albumIndex];
+
+  // siguiente canción del álbum actual
+  if (
+    currentIndex <
+    currentAlbum.songs.length - 1
+  ) {
+    return {
+      albumId: currentAlbumId,
+      songIndex: currentIndex + 1
+    };
+  }
+
+  // siguiente álbum
+  const nextAlbum =
+    albumsData[albumIndex + 1] ??
+    albumsData[0];
+
+  if (nextAlbum) {
+    return {
+      albumId: nextAlbum.id,
+      songIndex: 0
+    };
+  }
+
+  return null;
+}
+
 console.log("Las Oníricas loaded successfully ✨");
 
 const hoverButtons = document.querySelectorAll("button");
@@ -64,6 +109,10 @@ const albumsData = [
       "Los Toneles de Gurlo",
       "Crujidor Legendario - Corazón de Granito",
       "Dragenerys - Hijos del Fuego",
+      "Wey Wobot - Rebote Wabbit",
+      "Mantícoro - Entre Huesos de Gigantes",
+      "Lasoberaña - Hilos de Presa",
+      "Abráknido Ancestral - Raíces de la Primera Era",
     ],
   },
 ];
@@ -399,11 +448,37 @@ function playSong(index) {
 
     // AUTOPLAY
     if (autoplayToggle.checked) {
-      const nextIndex = currentIndex + 1;
 
-      if (nextIndex < visibleSongs.length) {
-        playSong(nextIndex);
+      const nextSong =
+        getNextSong();
+
+      if (!nextSong) return;
+
+      // cambiar álbum si es necesario
+      if (
+        nextSong.albumId !==
+        getCurrentAlbumId()
+      ) {
+
+        document
+          .querySelectorAll(".album")
+          .forEach(album => {
+            album.classList.remove("active");
+          });
+
+        const nextAlbumButton =
+          document.querySelector(
+            `[data-album="${nextSong.albumId}"]`
+          );
+
+        nextAlbumButton.classList.add("active");
+
+        renderSongs(nextSong.albumId);
       }
+
+      setTimeout(() => {
+        playSong(nextSong.songIndex);
+      }, 100);
     }
   });
 }
