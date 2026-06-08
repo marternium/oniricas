@@ -130,6 +130,11 @@ const albumsData = [
     cover: "assets/img/LogrosMecánicasMazmorras.png",
 
     songs: [
+      "Rasgabola - Al Revés",
+      "Maestro Cuerbok - Las Tres Plumas",
+      "Rata Blanca - Bajo Bonta",
+      "Rata Negra - Bajo las Cenizas",
+      "Piojoporojo - Uno, Dos, Tres",
     ],
   },
 ];
