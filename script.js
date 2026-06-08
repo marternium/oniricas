@@ -124,6 +124,14 @@ const albumsData = [
       "Karnozor - El Último en Pie",
     ],
   },
+  {
+    id: "logros-mecanicas-mazmorras",
+    title: "Logros, Mecánicas y Mazmorras",
+    cover: "assets/img/LogrosMecánicasMazmorras.png",
+
+    songs: [
+    ],
+  },
 ];
 
 const albumsContainer =
